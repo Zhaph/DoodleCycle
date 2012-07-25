@@ -7,3 +7,4 @@ TestResults
 _ReSharper*
 *.user
 *.suo
+packages/*

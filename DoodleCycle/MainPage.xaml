@@ -19,12 +19,15 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
  
         <!--Panorama control-->
-        <controls:Panorama Title="my application">
-            <controls:Panorama.Background>
-                <ImageBrush ImageSource="PanoramaBackground.png"/>
-            </controls:Panorama.Background>
- 
-            <!--Panorama item one-->
+      <controls:Panorama>
+      <controls:Panorama.TitleTemplate>
+        <DataTemplate>
+          <TextBlock Text="doodle cycle"  
+          Style="{StaticResource PanoHeaderTitle}"/>
+        </DataTemplate>
+      </controls:Panorama.TitleTemplate>
+
+      <!--Panorama item one-->
             <controls:PanoramaItem Header="first item">
                 <!--Double line list with text wrapping-->
                 <ListBox Margin="0,0,-12,0" ItemsSource="{Binding Items}">
@@ -48,7 +51,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,17">
                                 <!--Replace rectangle with image-->
-                                <Rectangle Height="100" Width="100" Fill="#FFE5001b" Margin="12,0,9,0"/>
+                                <Rectangle Height="100" Width="100" Fill="{StaticResource PhoneAccentBrush}" Margin="12,0,9,0"/>
                                 <StackPanel Width="311">                                    
                                     <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                                     <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>

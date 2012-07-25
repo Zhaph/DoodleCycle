@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls">
+  <Style x:Key="PanoHeaderTitle" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="120"/>
+    <Setter Property="FontFamily" Value="Segoe WP Light"/>
+    <Setter Property="Opacity" Value="0.6"/>
+    <Setter Property="Margin" Value="0,50,0,-20"/>
+  </Style>
+</ResourceDictionary>
