@@ -47,29 +47,29 @@
           <StackPanel Width="456" HorizontalAlignment="Left" Name="stackPanel1" VerticalAlignment="Top">
             <TextBlock Text="last ride" Style="{StaticResource MiniTitle}" />
             <StackPanel Width="456" HorizontalAlignment="Left" Orientation="Horizontal">
-              <TextBlock Text="duration: " />
-              <TextBlock Text="00:00:00" />
+              <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
+              <TextBlock Text="00:00:00"/>
             </StackPanel>
             <StackPanel Width="456" HorizontalAlignment="Left" Orientation="Horizontal">
-              <TextBlock Text="distance: " />
+              <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}"/>
               <TextBlock Text="0" />
               <TextBlock Text=" miles" />
               <TextBlock Text=", average speed: " />
-              <TextBlock Text="0" />
-              <TextBlock Text=" mph" />
+              <TextBlock Text="0" Style="{StaticResource PhoneTextBlockBase}" />
+              <TextBlock Text="mph" />
             </StackPanel>
             <TextBlock Text="running totals" Style="{StaticResource MiniTitle}" />
             <StackPanel Width="456" HorizontalAlignment="Left" Orientation="Horizontal">
-              <TextBlock Text="duration: " />
+              <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
               <TextBlock Text="00:00:00" />
             </StackPanel>
             <StackPanel Width="456" HorizontalAlignment="Left" Orientation="Horizontal">
-              <TextBlock Text="distance: " />
+              <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}" />
               <TextBlock Text="0" />
               <TextBlock Text=" miles" />
-              <TextBlock Text=", average speed: " />
-              <TextBlock Text="0" />
-              <TextBlock Text=" mph" />
+              <TextBlock Text=", average speed:" />
+              <TextBlock Text="0" Style="{StaticResource PhoneTextBlockBase}" />
+              <TextBlock Text="mph" />
             </StackPanel>
           </StackPanel>
         </Grid>

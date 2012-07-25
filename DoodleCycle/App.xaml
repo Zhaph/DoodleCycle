@@ -15,8 +15,9 @@
         <Setter Property="Margin" Value="0,50,0,-20"/>
       </Style>
     <Style x:Key="MiniTitle" TargetType="TextBlock">
-      <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+      <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
     </Style>
       <ResourceDictionary x:Key="styles">
         <ResourceDictionary.MergedDictionaries>
