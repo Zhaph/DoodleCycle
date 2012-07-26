@@ -77,6 +77,12 @@
     <Reference Include="NorthernLights.StateVariables">
       <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.StateVariables.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyChanged">
+      <HintPath>..\packages\PropertyChanged.Fody.1.25.0.0\Lib\SL40-WP71\PropertyChanged.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanging">
+      <HintPath>..\packages\PropertyChanging.Fody.1.13.0.0\Lib\SL40-WP71\PropertyChanging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Device" />
     <Reference Include="System.Windows" />
@@ -88,6 +94,7 @@
     <Reference Include="YourLastAboutDialog">
       <HintPath>..\packages\YLAD.2.0.0\lib\sl40-wp71\YourLastAboutDialog.dll</HintPath>
     </Reference>
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -105,6 +112,7 @@
     <Compile Include="RidePage.xaml.cs">
       <DependentUpon>RidePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
@@ -185,8 +193,5 @@
   -->
   <ProjectExtensions />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <UsingTask TaskName="NotifyPropertyWeaverMsBuildTask.WeavingTask" AssemblyFile="$(SolutionDir)Tools\NotifyPropertyWeaverMsBuildTask.dll" />
-  <Target Name="AfterCompile">
-    <NotifyPropertyWeaverMsBuildTask.WeavingTask />
-  </Target>
+  <Import Project="$(SolutionDir)\Tools\Fody\Fody.targets" />
 </Project>

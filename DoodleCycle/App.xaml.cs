@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DoodleCycle.Models;
+using DoodleCycle.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
@@ -17,22 +19,15 @@ namespace DoodleCycle
 {
   public partial class App : Application
   {
-    private static MainViewModel viewModel = null;
+    private static AppViewModel viewModel = null;
 
     /// <summary>
     /// A static ViewModel used by the views to bind against.
     /// </summary>
     /// <returns>The MainViewModel object.</returns>
-    public static MainViewModel ViewModel
+    public static AppViewModel ViewModel
     {
-      get
-      {
-        // Delay creation of the view model until necessary
-        if (viewModel == null)
-          viewModel = new MainViewModel();
-
-        return viewModel;
-      }
+      get { return viewModel; }
     }
 
     /// <summary>
@@ -59,7 +54,7 @@ namespace DoodleCycle
       if (System.Diagnostics.Debugger.IsAttached)
       {
         // Display the current frame rate counters.
-        Application.Current.Host.Settings.EnableFrameRateCounter = true;
+        Current.Host.Settings.EnableFrameRateCounter = true;
 
         // Display the metro grid helper.
         MetroGridHelper.IsVisible = true;
@@ -68,7 +63,7 @@ namespace DoodleCycle
         //Application.Current.Host.Settings.EnableRedrawRegions = true;
 
         // Enable non-production analysis visualization mode, 
-        // which shows areas of a page that are handed off to GPU with a colored overlay.
+        // which shows areas of a page that are handed off to GPU with a coloured overlay.
         //Application.Current.Host.Settings.EnableCacheVisualization = true;
 
         // Disable the application idle detection by setting the UserIdleDetectionMode property of the
@@ -78,6 +73,20 @@ namespace DoodleCycle
         PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
       }
 
+      string connectionString = "Data Source=isostore:/DoodleCycle.sdf";
+
+      using (var db = new RideDataContext(connectionString))
+      {
+        if (!db.DatabaseExists())
+        {
+          // Create the local database
+          db.CreateDatabase();
+        }
+      }
+
+      viewModel = new AppViewModel(connectionString);
+
+      viewModel.LoadData();
     }
 
     // Code to execute when the application is launching (eg, from Start)

@@ -44,6 +44,9 @@ namespace DoodleCycle
             });
         }
       }
+
+      // Set the data context of the listbox control to the sample data
+      DataContext = App.ViewModel;
     }
 
     private void aboutMenuItemClicked(object sender, EventArgs e)
