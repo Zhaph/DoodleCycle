@@ -32,31 +32,43 @@ namespace DoodleCycle
         else
         {
           // Show a popup.
-          Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-              var email = new EmailComposeTask
-              {
-                To = "support@doodle.co.uk",
-                Subject = "Doodle Cycle: auto-generated problem report",
-                Body = string.Format("{0}{2}{1}", exception.Message, exception.StackTrace, Environment.NewLine)
-              };
-              email.Show();
-            });
+          if (MessageBoxResult.OK == MessageBox.Show("There was an error last time I ran, would you mind sending my author a message? You can enable anonymous reporting in settings.", "sorry about this...", MessageBoxButton.OKCancel))
+          {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+                                                        {
+                                                          var email = new EmailComposeTask
+                                                                        {
+                                                                          To = "support@doodle.co.uk",
+                                                                          Subject = "Doodle Cycle: auto-generated problem report",
+                                                                          Body = string.Format("{0}{2}{1}", exception.Message, exception.StackTrace, Environment.NewLine)
+                                                                        };
+                                                          email.Show();
+                                                        });
+          }
         }
       }
 
-      // Set the data context of the listbox control to the sample data
       DataContext = App.ViewModel;
+    }
+
+    private void newRideButtonClicked(object sender, EventArgs e)
+    {
+      NavigationService.Navigate(new Uri("/DoodleCycle;component/Views/RidePage.xaml", UriKind.Relative));
+    }
+
+    private void resumeRideButtonClicked(object sender, EventArgs e)
+    {
+      NavigationService.Navigate(new Uri("/DoodleCycle;component/Views/RidePage.xaml?resumeRide=" + bool.TrueString, UriKind.Relative));
+    }
+
+    private void settingsMenuItemClicked(object sender, EventArgs e)
+    {
+      NavigationService.Navigate(new Uri("/DoodleCycle;component/Views/SettingsPage.xaml", UriKind.Relative));
     }
 
     private void aboutMenuItemClicked(object sender, EventArgs e)
     {
       NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
-    }
-
-    private void newRideButtonClicked(object sender, EventArgs e)
-    {
-      NavigationService.Navigate(new Uri("/DoodleCycle;component/RidePage.xaml", UriKind.Relative));
     }
   }
 }

@@ -20,12 +20,12 @@ namespace DoodleCycle.ViewModels
 
     public bool IsDataLoaded { get; private set; }
 
-    public AppViewModel(string rideDBConnectionString)
+    public AppViewModel(string rideDbConnectionString)
     {
-      _rideDc = new RideDataContext(rideDBConnectionString);
+      _rideDc = new RideDataContext(rideDbConnectionString);
     }
 
-    public void SaveChangesToDB()
+    public void SaveChanges()
     {
       _rideDc.SubmitChanges();
     }

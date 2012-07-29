@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+﻿using System.Windows;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DoodleCycle.Models;
 using DoodleCycle.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using NorthernLights;
 
 namespace DoodleCycle
 {
   public partial class App : Application
   {
-    private static AppViewModel viewModel = null;
+    private static readonly string _connectionString = "Data Source=isostore:/DoodleCycle.sdf";
+    private static AppViewModel _viewModel;
+    private static AppSettings _appSettings;
 
     /// <summary>
     /// A static ViewModel used by the views to bind against.
@@ -27,7 +20,12 @@ namespace DoodleCycle
     /// <returns>The MainViewModel object.</returns>
     public static AppViewModel ViewModel
     {
-      get { return viewModel; }
+      get { return _viewModel; }
+    }
+
+    public static AppSettings AppSettings
+    {
+      get { return _appSettings; }
     }
 
     /// <summary>
@@ -35,6 +33,11 @@ namespace DoodleCycle
     /// </summary>
     /// <returns>The root frame of the Phone Application.</returns>
     public PhoneApplicationFrame RootFrame { get; private set; }
+
+    internal static string ConnectionString
+    {
+      get { return _connectionString; }
+    }
 
     /// <summary>
     /// Constructor for the Application object.
@@ -49,6 +52,8 @@ namespace DoodleCycle
 
       // Phone-specific initialization
       InitializePhoneApplication();
+
+      var pas = PhoneApplicationService.Current;
 
       // Show graphics profiling information while debugging.
       if (System.Diagnostics.Debugger.IsAttached)
@@ -70,12 +75,10 @@ namespace DoodleCycle
         // application's PhoneApplicationService object to Disabled.
         // Caution:- Use this under debug mode only. Application that disables user idle detection will continue to run
         // and consume battery power when the user is not using the phone.
-        PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
+        pas.UserIdleDetectionMode = IdleDetectionMode.Disabled;
       }
 
-      string connectionString = "Data Source=isostore:/DoodleCycle.sdf";
-
-      using (var db = new RideDataContext(connectionString))
+      using (var db = new RideDataContext(ConnectionString))
       {
         if (!db.DatabaseExists())
         {
@@ -84,9 +87,28 @@ namespace DoodleCycle
         }
       }
 
-      viewModel = new AppViewModel(connectionString);
+      _viewModel = new AppViewModel(ConnectionString);
 
-      viewModel.LoadData();
+      _viewModel.LoadData();
+
+      _appSettings = new AppSettings();
+
+      // Check that Idle Detection Mode matches user settings...
+      if (_appSettings.RunUnderLockScreen && pas.ApplicationIdleDetectionMode == IdleDetectionMode.Enabled)
+      {
+        // User has allowed us to run under lock screen, but App Idle Detection is still enabled:
+        pas.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
+      }
+      else if (!_appSettings.RunUnderLockScreen && pas.ApplicationIdleDetectionMode == IdleDetectionMode.Disabled)
+      {
+        // User hasn't allowed us to run under lock screen, but App Idle Detection has been disabled:
+        pas.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
+      }
+
+      if (!_appSettings.AllowAnonymousReporting)
+      {
+        LittleWatson.Instance.AllowAnonymousHttpReporting = false;
+      }
     }
 
     // Code to execute when the application is launching (eg, from Start)
@@ -100,9 +122,9 @@ namespace DoodleCycle
     private void Application_Activated(object sender, ActivatedEventArgs e)
     {
       // Ensure that application state is restored appropriately
-      if (!App.ViewModel.IsDataLoaded)
+      if (!ViewModel.IsDataLoaded)
       {
-        App.ViewModel.LoadData();
+        ViewModel.LoadData();
       }
     }
 
@@ -122,29 +144,27 @@ namespace DoodleCycle
     // Code to execute if a navigation fails
     private void RootFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
     {
-
-      // Log it for later
-      NorthernLights.LittleWatson.SaveExceptionForReporting(e.Exception);
-
       if (System.Diagnostics.Debugger.IsAttached)
       {
         // A navigation has failed; break into the debugger
         System.Diagnostics.Debugger.Break();
       }
+
+      // Log it for later
+      LittleWatson.SaveExceptionForReporting(e.Exception);
     }
 
     // Code to execute on Unhandled Exceptions
     private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
     {
-
-      // Log it for later
-      NorthernLights.LittleWatson.SaveExceptionForReporting(e.ExceptionObject);
-
       if (System.Diagnostics.Debugger.IsAttached)
       {
         // An unhandled exception has occurred; break into the debugger
         System.Diagnostics.Debugger.Break();
       }
+
+      // Log it for later
+      LittleWatson.SaveExceptionForReporting(e.ExceptionObject);
     }
 
     #region Phone application initialization

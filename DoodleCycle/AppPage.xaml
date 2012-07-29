@@ -61,14 +61,14 @@
             <TextBlock Text="running totals" Style="{StaticResource MiniTitle}" />
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
               <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
-              <TextBlock Text="00:00:00" />
+              <TextBlock Text="{Binding SummaryRide.RideDuration}" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
               <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}" />
-              <TextBlock Text="0" />
+              <TextBlock Text="{Binding SummaryRide.RideDistance}" />
               <TextBlock Text=" miles" />
               <TextBlock Text=", average speed:" />
-              <TextBlock Text="0" Style="{StaticResource PhoneTextBlockBase}" />
+              <TextBlock Text="{Binding SummaryRide.AverageSpeed}" Style="{StaticResource PhoneTextBlockBase}" />
               <TextBlock Text="mph" />
             </StackPanel>
           </StackPanel>
@@ -86,9 +86,9 @@
     <phone:PhoneApplicationPage.ApplicationBar>
       <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
         <shell:ApplicationBarIconButton x:Name="startNewRideButton" IconUri="/Content/Images/appbar.add.png" Text="New Ride" Click="newRideButtonClicked"/>
-        <shell:ApplicationBarIconButton x:Name="resumeLastRideButton" IconUri="/Content/Images/appbar.chevron.right.png" Text="Resume Ride"/>
+        <shell:ApplicationBarIconButton x:Name="resumeLastRideButton" IconUri="/Content/Images/appbar.chevron.right.png" Text="Resume Ride" Click="resumeRideButtonClicked"/>
         <shell:ApplicationBar.MenuItems>
-        <shell:ApplicationBarMenuItem x:Name="settingsMenuItem" Text="Settings"/>
+        <shell:ApplicationBarMenuItem x:Name="settingsMenuItem" Text="Settings" Click="settingsMenuItemClicked" />
         <shell:ApplicationBarMenuItem x:Name="aboutMenuItem" Text="About" Click="aboutMenuItemClicked" />
       </shell:ApplicationBar.MenuItems>
     </shell:ApplicationBar>
