@@ -59,19 +59,27 @@
     </Item>
     <Item Title="credits" Type="text">
       Thanks!
-      Doodle Graphics wish to thank the following for their kind contributions:
+      Doodle Graphics wishes to thank the following for their kind contributions, often via blog posts or open source offerings:
 
       Bil Simser
       For his great "The Big Dummies Guide" list.
-      
+      http://bit.ly/WP7Dummies
+
       Mister_Goodcat
       For this about system "Your Last About Dialog" YLAD.
-      
+      http://ylad.codeplex.com/
+
       SouthernSun
       For the LittleWatson extensions, and other tools in the Northern Lights WP7 Toolkit.
-      
+      http://northernlights.codeplex.com/
+
       Templarian
       For a great set of icons.
+      http://templarian.com/project_windows_phone_icons/
+
+      Simon Cropp
+      For writing Fody and the PropertyChanged and PropertyChanging plugins to save me reams of boilerplate code.
+      https://github.com/SimonCropp/Fody
     </Item>
   </Items>
 </About>

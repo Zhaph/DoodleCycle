@@ -39,43 +39,6 @@ namespace DoodleCycle.Models
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
-
-    public void OnPropertyChanged(string propertyName)
-    {
-      PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-      if (propertyChanged != null)
-      {
-        propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-      }
-
-      switch (propertyName)
-      {
-        case "RunUnderLockScreen":
-          var pas = PhoneApplicationService.Current;
-
-          if (App.AppSettings.RunUnderLockScreen && pas.ApplicationIdleDetectionMode == IdleDetectionMode.Enabled)
-          {
-            // User has enabled running under the lock screen :)
-            PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
-          }
-          else
-          {
-            try
-            {
-              PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
-            }
-            catch (InvalidOperationException)
-            {
-              // Requires restart.
-              MessageBox.Show("You need to restart the app to change this setting.", "sorry about this...", MessageBoxButton.OK);
-            }
-          }
-
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   public enum Units

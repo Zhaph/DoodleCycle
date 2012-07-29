@@ -13,6 +13,7 @@ namespace DoodleCycle.Views
     {
       InitializeComponent();
 
+      DataContext = App.AppSettings;
     }
 
     protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -30,19 +31,29 @@ namespace DoodleCycle.Views
 
     private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      MessageBox.Show("Boo!");
       switch (e.PropertyName)
       {
         case "RunUnderLockScreen":
-          if (App.AppSettings.RunUnderLockScreen)
+          var pas = PhoneApplicationService.Current;
+
+          if (App.AppSettings.RunUnderLockScreen && pas.ApplicationIdleDetectionMode == IdleDetectionMode.Enabled)
           {
-              // User has enabled running under the lock screen :)
-              PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
+            // User has enabled running under the lock screen :)
+            PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
           }
           else
           {
-            PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
+            try
+            {
+              PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Enabled;
+            }
+            catch (InvalidOperationException)
+            {
+              // Requires restart.
+              MessageBox.Show("You need to restart the app to change this setting.", "sorry about this...", MessageBoxButton.OK);
+            }
           }
+
           break;
         default:
           break;

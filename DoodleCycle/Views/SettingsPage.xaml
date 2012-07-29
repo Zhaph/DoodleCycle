@@ -15,8 +15,6 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
   <phone:PhoneApplicationPage.Resources>
-    <local:AppSettings x:Key="appSettings"></local:AppSettings>
-    <local:Units x:Key="units"></local:Units>
     <dc:EnumToBoolConverter x:Key="EBConverter"/>
   </phone:PhoneApplicationPage.Resources>
   <!--LayoutRoot is the root grid where all page content is placed-->
@@ -37,17 +35,17 @@
       <ScrollViewer>
         <StackPanel Orientation="Vertical">
           <TextBlock Text="Enable location services?" Style="{StaticResource PhoneTextSmallStyle}" />
-          <toolkit:ToggleSwitch x:Name="EnableLocationSwitch" IsChecked="{Binding Source={StaticResource appSettings}, Path=EnableLocationServices, Mode=TwoWay}" />
+          <toolkit:ToggleSwitch x:Name="EnableLocationSwitch" IsChecked="{Binding EnableLocationServices, Mode=TwoWay}" />
           <TextBlock Text="Enable running under lock?" Style="{StaticResource PhoneTextSmallStyle}" />
-          <toolkit:ToggleSwitch x:Name="RunUnderLockSwitch" IsChecked="{Binding Source={StaticResource appSettings}, Path=RunUnderLockScreen, Mode=TwoWay}" />
+          <toolkit:ToggleSwitch x:Name="RunUnderLockSwitch" IsChecked="{Binding RunUnderLockScreen, Mode=TwoWay}" />
           <TextBlock Text="Allow errors to be reported anonymously?" Style="{StaticResource PhoneTextSmallStyle}" />
-          <toolkit:ToggleSwitch x:Name="AllowReportingSwitch" IsChecked="{Binding Source={StaticResource appSettings}, Path=AllowAnonymousReporting, Mode=TwoWay}" />
+          <toolkit:ToggleSwitch x:Name="AllowReportingSwitch" IsChecked="{Binding AllowAnonymousReporting, Mode=TwoWay}" />
           <TextBlock Text="Main Units:" Style="{StaticResource PhoneTextSmallStyle}" />
-          <RadioButton Content="Imperial/US (miles)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="MainUnitsMiles" VerticalAlignment="Bottom" GroupName="MainUnitsGroup" IsChecked="{Binding Source={StaticResource appSettings}, Path=MainUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Imperial}" />
-          <RadioButton Content="Metric (km)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="MainUnitsMetres" VerticalAlignment="Bottom" GroupName="MainUnitsGroup" IsChecked="{Binding Source={StaticResource appSettings}, Path=MainUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Metric}"/>
+          <RadioButton Content="Imperial/US (miles)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="MainUnitsMiles" VerticalAlignment="Bottom" GroupName="MainUnitsGroup" IsChecked="{Binding MainUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Imperial}" />
+          <RadioButton Content="Metric (km)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="MainUnitsMetres" VerticalAlignment="Bottom" GroupName="MainUnitsGroup" IsChecked="{Binding MainUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Metric}"/>
           <TextBlock Text="Elevation Units:" Style="{StaticResource PhoneTextSmallStyle}" />
-          <RadioButton Content="Imperial/US (feet)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="ElevationUnitsMiles" VerticalAlignment="Bottom" GroupName="ElevationUnitsGroup" IsChecked="{Binding Source={StaticResource appSettings}, Path=ElevationUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Imperial}" />
-          <RadioButton Content="Metric (m)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="ElevationUnitsMetres" VerticalAlignment="Bottom" GroupName="ElevationUnitsGroup" IsChecked="{Binding Source={StaticResource appSettings}, Path=ElevationUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Metric}"/>
+          <RadioButton Content="Imperial/US (feet)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="ElevationUnitsMiles" VerticalAlignment="Bottom" GroupName="ElevationUnitsGroup" IsChecked="{Binding ElevationUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Imperial}" />
+          <RadioButton Content="Metric (m)" Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,6" Name="ElevationUnitsMetres" VerticalAlignment="Bottom" GroupName="ElevationUnitsGroup" IsChecked="{Binding ElevationUnits, Mode=TwoWay, Converter={StaticResource EBConverter}, ConverterParameter=Metric}"/>
         </StackPanel>
       </ScrollViewer>
     </Grid>
