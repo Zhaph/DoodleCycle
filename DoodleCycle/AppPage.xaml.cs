@@ -13,11 +13,15 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using NorthernLights;
 using Microsoft.Phone.Tasks;
+using DoodleCycle.ViewModels;
 
 namespace DoodleCycle
 {
   public partial class AppPage : PhoneApplicationPage
   {
+    private AppViewModel _viewModel;
+
+
     public AppPage()
     {
       InitializeComponent();
@@ -49,7 +53,14 @@ namespace DoodleCycle
         }
       }
 
-      DataContext = App.ViewModel;
+      if (null == _viewModel)
+      {
+        _viewModel = new AppViewModel(App.ConnectionString);
+
+        _viewModel.LoadData();
+      }
+
+      DataContext = _viewModel;
     }
 
     protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -57,6 +68,12 @@ namespace DoodleCycle
       base.OnNavigatedTo(e);
 
       App.AppSettings.PropertyChanged += AppSettings_Changed;
+
+      if (System.Windows.Navigation.NavigationMode.Back == e.NavigationMode)
+      {
+        DataContext = null;
+        DataContext = App.ViewModel;
+      }
     }
 
     protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)

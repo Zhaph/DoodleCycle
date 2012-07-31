@@ -11,17 +11,7 @@ namespace DoodleCycle
   public partial class App : Application
   {
     private static readonly string _connectionString = "Data Source=isostore:/DoodleCycle.sdf";
-    private static AppViewModel _viewModel;
     private static AppSettings _appSettings;
-
-    /// <summary>
-    /// A static ViewModel used by the views to bind against.
-    /// </summary>
-    /// <returns>The MainViewModel object.</returns>
-    public static AppViewModel ViewModel
-    {
-      get { return _viewModel; }
-    }
 
     public static AppSettings AppSettings
     {
@@ -87,10 +77,6 @@ namespace DoodleCycle
         }
       }
 
-      _viewModel = new AppViewModel(ConnectionString);
-
-      _viewModel.LoadData();
-
       _appSettings = new AppSettings();
 
       // Check that Idle Detection Mode matches user settings...
@@ -122,10 +108,6 @@ namespace DoodleCycle
     private void Application_Activated(object sender, ActivatedEventArgs e)
     {
       // Ensure that application state is restored appropriately
-      if (!ViewModel.IsDataLoaded)
-      {
-        ViewModel.LoadData();
-      }
     }
 
     // Code to execute when the application is deactivated (sent to background)
