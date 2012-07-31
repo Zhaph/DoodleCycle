@@ -103,7 +103,9 @@
     <Compile Include="AppPage.xaml.cs">
       <DependentUpon>AppPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\DoubleToDistanceStringConverter.cs" />
     <Compile Include="Classes\EnumToBoolConverter.cs" />
+    <Compile Include="Classes\TimespanToStringConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

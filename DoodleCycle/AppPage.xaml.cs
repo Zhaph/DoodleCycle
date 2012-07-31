@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Windows;
@@ -49,6 +50,32 @@ namespace DoodleCycle
       }
 
       DataContext = App.ViewModel;
+    }
+
+    protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+    {
+      base.OnNavigatedTo(e);
+
+      App.AppSettings.PropertyChanged += AppSettings_Changed;
+    }
+
+    protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
+    {
+      base.OnNavigatingFrom(e);
+
+      App.AppSettings.PropertyChanged -= AppSettings_Changed;
+    }
+
+    private void AppSettings_Changed(object sender, PropertyChangedEventArgs e)
+    {
+      switch (e.PropertyName)
+      {
+        case "MainUnits":
+          // Update Ride Values
+          break;
+        default:
+          break;
+      }
     }
 
     private void newRideButtonClicked(object sender, EventArgs e)

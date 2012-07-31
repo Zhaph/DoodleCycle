@@ -27,7 +27,7 @@ namespace DoodleCycle.ViewModels
 
     public void SaveChanges()
     {
-      _rideDc.SubmitChanges();
+      //_rideDc.SubmitChanges();
     }
 
     public Ride LastRide { get; private set; }
@@ -38,7 +38,7 @@ namespace DoodleCycle.ViewModels
     {
       // Get last ride.
       LastRide = (from r in _rideDc.Rides orderby r.RideTime descending select r).FirstOrDefault() ??
-                 new Ride {RideDistance = 23.4, RideDurationRaw = 12445};
+                 new Ride {RideDistance = 1337, RideDurationRaw = 124450};
 
       // Summary Details
       if ((from r in _rideDc.Rides select r).Any())
@@ -55,7 +55,7 @@ namespace DoodleCycle.ViewModels
       }
       else
       {
-        SummaryRide = new Ride { RideDistance = 140.5, RideDurationRaw = 12224445 };
+        SummaryRide = new Ride { RideDistance = 133713.37, RideDurationRaw = 12224445 };
       }
       IsDataLoaded = true;
     }

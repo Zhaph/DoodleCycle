@@ -126,5 +126,10 @@ namespace DoodleCycle.Views
     {
       NavigationService.Navigate(new Uri("/DoodleCycle;component/Views/SettingsPage.xaml", UriKind.Relative));
     }
+
+    private void CloseRideClicked(object sender, RoutedEventArgs e)
+    {
+      NavigationService.Navigate(new Uri("/DoodleCycle;component/AppPage.xaml", UriKind.Relative));
+    }
   }
 }

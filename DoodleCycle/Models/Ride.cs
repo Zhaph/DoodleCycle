@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
+using System.Globalization;
+using PropertyChanged;
 
 namespace DoodleCycle.Models
 {
@@ -37,6 +39,7 @@ namespace DoodleCycle.Models
     [Column(DbType = "FLOAT")]
     public double RideDistance { get; set; }
 
+    [DependsOn("RideDurationRaw")]
     public TimeSpan RideDuration
     {
       get { return new TimeSpan(0, 0, 0, RideDurationRaw); }
@@ -46,7 +49,9 @@ namespace DoodleCycle.Models
     {
       get
       {
-        return RideDurationRaw > 0.0 ? RideDistance/RideDuration.TotalHours : 0.0;
+        double distance = Classes.DoubleToDistanceStringConverter.LongDistance(RideDistance, App.AppSettings.MainUnits);
+
+        return RideDurationRaw > 0.0 ? distance / RideDuration.TotalHours : 0.0;
       }
     }
 
