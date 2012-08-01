@@ -72,7 +72,7 @@ namespace DoodleCycle
       if (System.Windows.Navigation.NavigationMode.Back == e.NavigationMode)
       {
         DataContext = null;
-        DataContext = App.ViewModel;
+        DataContext = _viewModel;
       }
     }
 

@@ -37,8 +37,8 @@ namespace DoodleCycle.ViewModels
     public void LoadData()
     {
       // Get last ride.
-      LastRide = (from r in _rideDc.Rides orderby r.RideTime descending select r).FirstOrDefault() ??
-                 new Ride {RideDistance = 1337, RideDurationRaw = 124450};
+      LastRide = (from r in _rideDc.Rides orderby r.RideStartTime descending select r).FirstOrDefault() ??
+                 new Ride {RideDistance = 1337, RideDurationRaw = 2445};
 
       // Summary Details
       if ((from r in _rideDc.Rides select r).Any())
@@ -55,7 +55,7 @@ namespace DoodleCycle.ViewModels
       }
       else
       {
-        SummaryRide = new Ride { RideDistance = 133713.37, RideDurationRaw = 12224445 };
+        SummaryRide = new Ride { RideDistance = 133713.37, RideDurationRaw = 122244 };
       }
       IsDataLoaded = true;
     }

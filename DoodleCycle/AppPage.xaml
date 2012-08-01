@@ -18,6 +18,7 @@
   <phone:PhoneApplicationPage.Resources>
     <dc:TimespanToStringConverter x:Key="TSConverter"/>
     <dc:DoubleToDistanceStringConverter x:Key="DDSConverter"/>
+    <dc:DoubleToSpeedStringConverter x:Key="DSSConverter"/>
   </phone:PhoneApplicationPage.Resources>
   <!--LayoutRoot is the root grid where all page content is placed-->
   <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -27,29 +28,27 @@
       <controls:PivotItem Header="Start">
         <Grid HorizontalAlignment="Stretch">
         <StackPanel HorizontalAlignment="Stretch" Name="stackPanel1" VerticalAlignment="Top">
-          <TextBlock Text="last ride" Style="{StaticResource MiniTitle}" />
+          <TextBlock Text="last ride" Style="{StaticResource AccentTitle}" />
           <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-              <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
-              <TextBlock Text="{Binding LastRide.RideDuration, Converter={StaticResource TSConverter}}"/>
+            <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
+            <TextBlock Text="{Binding LastRide.RideDuration, Converter={StaticResource TSConverter}}"/>
           </StackPanel>
           <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}"/>
-              <TextBlock Text="{Binding LastRide.RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" />
+            <TextBlock Text="{Binding LastRide.RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" />
             <TextBlock Text=", average speed: " />
-            <TextBlock Text="{Binding LastRide.AverageSpeed}" Style="{StaticResource PhoneTextBlockBase}" />
-            <TextBlock Text="mph" />
+            <TextBlock Text="{Binding LastRide.AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource PhoneTextBlockBase}" />
           </StackPanel>
-          <TextBlock Text="running totals" Style="{StaticResource MiniTitle}" />
+            <TextBlock Text="running totals" Style="{StaticResource AccentTitle}" />
           <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
-              <TextBlock Text="{Binding SummaryRide.RideDuration, Converter={StaticResource TSConverter}}" />
+            <TextBlock Text="{Binding SummaryRide.RideDuration, Converter={StaticResource TSConverter}}" />
           </StackPanel>
           <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}" />
-              <TextBlock Text="{Binding SummaryRide.RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" />
+            <TextBlock Text="{Binding SummaryRide.RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" />
             <TextBlock Text=", average speed:" />
-            <TextBlock Text="{Binding SummaryRide.AverageSpeed}" Style="{StaticResource PhoneTextBlockBase}" />
-            <TextBlock Text="mph" />
+            <TextBlock Text="{Binding SummaryRide.AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource PhoneTextBlockBase}" />
           </StackPanel>
         </StackPanel>
       </Grid>

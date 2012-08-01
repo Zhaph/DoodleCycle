@@ -1,15 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using System.Threading;
 using DoodleCycle.Models;
 
 namespace DoodleCycle.ViewModels
@@ -43,11 +35,11 @@ namespace DoodleCycle.ViewModels
       if (_resumeLastRide)
       {
         // Get last ride.
-        CurrentRide = (from r in _rideDc.Rides orderby r.RideTime descending select r).FirstOrDefault();
+        CurrentRide = (from r in _rideDc.Rides orderby r.RideStartTime descending select r).FirstOrDefault();
       }
       else
       {
-        CurrentRide = new Ride { RideDistance = 23.4, RideDurationRaw = 12445 };
+        CurrentRide = new Ride { RideDistance = 0.0, RideDurationRaw = 0};
         // Attach it to the database...
         _rideDc.Rides.InsertOnSubmit(CurrentRide);
       }

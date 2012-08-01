@@ -7,6 +7,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+  xmlns:dc="clr-namespace:DoodleCycle.Classes"
   FontFamily="{StaticResource PhoneFontFamilyNormal}"
   FontSize="{StaticResource PhoneFontSizeNormal}"
   Foreground="{StaticResource PhoneForegroundBrush}"
@@ -14,6 +15,11 @@
   mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
   Style="{StaticResource TransitionPageStyle}"
   shell:SystemTray.IsVisible="True">
+  <phone:PhoneApplicationPage.Resources>
+    <dc:TimespanToStringConverter x:Key="TSConverter"/>
+    <dc:DoubleToDistanceStringConverter x:Key="DDSConverter"/>
+    <dc:DoubleToSpeedStringConverter x:Key="DSSConverter"/>
+  </phone:PhoneApplicationPage.Resources>
 
   <!--LayoutRoot is the root grid where all page content is placed-->
   <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -36,15 +42,25 @@
     </Grid>
     <!--ContentPanel - place additional content here-->
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Visibility="Collapsed">
-      <Button x:Name="CloseRide" Content="Close Ride" Click="CloseRideClicked" />
-      
+      <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+        <TextBlock Text="Elapsed Time" Style="{StaticResource SmallCentred}" />
+        <TextBlock Text="{Binding RideDuration, Converter={StaticResource TSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
+        <TextBlock Text="Distance" Style="{StaticResource SmallCentred}" />
+        <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" Style="{StaticResource ExtraLargeCentred}" />
+        <TextBlock Text="Current Speed" Style="{StaticResource SmallCentred}" />
+        <TextBlock Text="{Binding LastPosition.Speed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeCentred}" />
+        <TextBlock Text="Average Speed" Style="{StaticResource SmallCentred}" />
+        <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
+        <Button x:Name="CloseRide" Content="Close Ride" Click="CloseRideClicked" Visibility="Collapsed" />
+
+      </StackPanel>
     </Grid>
   </Grid>
  
   <phone:PhoneApplicationPage.ApplicationBar>
     <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-      <shell:ApplicationBarIconButton x:Name="startStopRideButton" IconUri="/Content/Images/appbar.control.play.png" Text="Play" IsEnabled="False"/>
-      <shell:ApplicationBarIconButton x:Name="pauseRideButton" IconUri="/Content/Images/appbar.control.pause.png" Text="Pause" IsEnabled="False"/>
+      <shell:ApplicationBarIconButton x:Name="startStopRideButton" IconUri="/Content/Images/appbar.control.play.png" Text="Play" IsEnabled="False" Click="startStopRideButtonClick"/>
+      <shell:ApplicationBarIconButton x:Name="pauseRideButton" IconUri="/Content/Images/appbar.control.pause.png" Text="Pause" IsEnabled="False" Click="pauseRideButtonClick"/>
       <shell:ApplicationBar.MenuItems>
         <shell:ApplicationBarMenuItem x:Name="settingsMenuItem" Text="Settings" Click="settingsMenuItemClicked" />
       </shell:ApplicationBar.MenuItems>

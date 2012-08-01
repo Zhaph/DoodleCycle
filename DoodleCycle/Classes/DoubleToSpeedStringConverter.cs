@@ -10,17 +10,30 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using DoodleCycle.Models;
 
 namespace DoodleCycle.Classes
 {
-  public class TimespanToStringConverter : IValueConverter
+  public class DoubleToSpeedStringConverter: IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      // Doesn't actually need to be generic, so I'm going to hard-code my requirements:
-      var timespan = value is TimeSpan ? (TimeSpan) value : new TimeSpan();
+      var speed = value is double ? (double) value : 0d;
 
-      return string.Format("{0}:{1}:{2}", Math.Floor(timespan.TotalHours), timespan.Minutes.ToString("00"), timespan.Seconds.ToString("00"));
+      if (null != parameter)
+      {
+        // speed's in m/s, need to convert:
+        if (Units.Metric == App.AppSettings.MainUnits)
+        {
+          speed = speed*3.6;
+        }
+        else
+        {
+          speed = speed*2.23693629;
+        }
+      }
+
+      return Units.Metric == App.AppSettings.MainUnits ? speed.ToString("0.00' km/h'", culture) : speed.ToString("0.00' mph'", culture);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

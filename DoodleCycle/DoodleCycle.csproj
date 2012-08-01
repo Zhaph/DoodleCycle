@@ -103,12 +103,10 @@
     <Compile Include="AppPage.xaml.cs">
       <DependentUpon>AppPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\DoubleToSpeedStringConverter.cs" />
     <Compile Include="Classes\DoubleToDistanceStringConverter.cs" />
     <Compile Include="Classes\EnumToBoolConverter.cs" />
     <Compile Include="Classes\TimespanToStringConverter.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MetroGridHelper.cs" />
     <Compile Include="Models\AppSettings.cs" />
     <Compile Include="Models\Ride.cs" />
@@ -137,18 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Content>
-    <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <DesignData Include="SampleData\MainViewModelSampleData.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
-    <Page Include="Resources\Styles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\RidePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
