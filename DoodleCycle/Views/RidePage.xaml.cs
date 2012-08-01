@@ -17,13 +17,14 @@ namespace DoodleCycle.Views
     private bool _rideStarted;
     private bool _rideInProgress;
     private bool _stopTimer;
+    private bool _locationReady;
     private readonly ApplicationBarIconButton _startStopButton;
     private readonly IApplicationBarIconButton _pauseButton;
     private readonly int _second = 1000; // 1000 milliseconds.
     private readonly Timer _timer;
     private Ride _currentRide;
     private readonly RideDataContext _rideDc;
-
+    private DateTimeOffset _lastPositionTimestamp;
 
     private GeoCoordinateWatcher _location;
 
@@ -80,10 +81,21 @@ namespace DoodleCycle.Views
 
     private void locationPositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
     {
-      //throw new NotImplementedException();
+      if (_locationReady)
+      {
+        // Location services have just started up, so pick up the current position as the "last" position for the ride, we might not be in exactly the same place ;)
+        _locationReady = false;
+        _lastPositionTimestamp = e.Position.Timestamp;
+        _currentRide.LastPosition = e.Position.Location;
+      }
+
       if (_rideInProgress)
       {
+        double distanceFromLast = _currentRide.LastPosition.GetDistanceTo(e.Position.Location);
+        _currentRide.RideDistance += distanceFromLast;
+        _currentRide.CurrentSpeed = distanceFromLast / e.Position.Timestamp.Subtract(_lastPositionTimestamp).TotalSeconds; 
         _currentRide.LastPosition = e.Position.Location;
+        _lastPositionTimestamp = e.Position.Timestamp;
       }
     }
 
@@ -117,9 +129,18 @@ namespace DoodleCycle.Views
         case GeoPositionStatus.Ready:
           InitialisingPanel.Visibility = Visibility.Collapsed;
           ContentPanel.Visibility = Visibility.Visible;
+          _locationReady = true;
 
-          _startStopButton.IsEnabled = true;
-          _pauseButton.IsEnabled = false;
+          if (!_resumeLastRide)
+          {
+            _startStopButton.IsEnabled = true;
+            _pauseButton.IsEnabled = false;
+          }
+          else
+          {
+            _startStopButton.IsEnabled = false;
+            _pauseButton.IsEnabled = true;
+          }
           break;
       }
     }
@@ -161,7 +182,7 @@ namespace DoodleCycle.Views
     private void CloseRideClicked(object sender, RoutedEventArgs e)
     {
       _location.Stop();
-      NavigationService.Navigate(new Uri("/DoodleCycle;component/AppPage.xaml", UriKind.Relative));
+      NavigationService.GoBack();
     }
 
     private void startTimer()
@@ -192,6 +213,7 @@ namespace DoodleCycle.Views
         // Start ride, enable Pause button...
         _pauseButton.IsEnabled = true;
         _startStopButton.IconUri = new Uri("/Content/Images/appbar.control.stop.png", UriKind.Relative);
+        _startStopButton.Text = "Stop";
         _rideStarted = true;
         _currentRide.RideStartTime = DateTime.Now;
         startTimer();

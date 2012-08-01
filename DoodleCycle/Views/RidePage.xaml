@@ -48,7 +48,7 @@
         <TextBlock Text="Distance" Style="{StaticResource SmallCentred}" />
         <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" Style="{StaticResource ExtraLargeCentred}" />
         <TextBlock Text="Current Speed" Style="{StaticResource SmallCentred}" />
-        <TextBlock Text="{Binding LastPosition.Speed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeCentred}" />
+        <TextBlock Text="{Binding CurrentSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeCentred}" />
         <TextBlock Text="Average Speed" Style="{StaticResource SmallCentred}" />
         <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
         <Button x:Name="CloseRide" Content="Close Ride" Click="CloseRideClicked" Visibility="Collapsed" />
@@ -59,7 +59,7 @@
  
   <phone:PhoneApplicationPage.ApplicationBar>
     <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-      <shell:ApplicationBarIconButton x:Name="startStopRideButton" IconUri="/Content/Images/appbar.control.play.png" Text="Play" IsEnabled="False" Click="startStopRideButtonClick"/>
+      <shell:ApplicationBarIconButton x:Name="startStopRideButton" IconUri="/Content/Images/appbar.control.play.png" Text="Start" IsEnabled="False" Click="startStopRideButtonClick"/>
       <shell:ApplicationBarIconButton x:Name="pauseRideButton" IconUri="/Content/Images/appbar.control.pause.png" Text="Pause" IsEnabled="False" Click="pauseRideButtonClick"/>
       <shell:ApplicationBar.MenuItems>
         <shell:ApplicationBarMenuItem x:Name="settingsMenuItem" Text="Settings" Click="settingsMenuItemClicked" />

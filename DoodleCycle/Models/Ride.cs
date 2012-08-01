@@ -39,6 +39,7 @@ namespace DoodleCycle.Models
     [Column]
     public int RideDurationRaw { get; set; }
 
+    [AlsoNotifyFor("AverageSpeed")]
     [Column(DbType = "FLOAT")]
     public double RideDistance { get; set; }
 
@@ -56,6 +57,8 @@ namespace DoodleCycle.Models
     [DependsOn("LastPosition")]
     [Column(DbType = "FLOAT")]
     public double LastAltitude { get; set; }
+
+    public double CurrentSpeed { get; set; }
 
     public GeoCoordinate LastPosition
     {
@@ -77,7 +80,6 @@ namespace DoodleCycle.Models
       get { return new TimeSpan(0, 0, 0, RideDurationRaw); }
     }
 
-    [DependsOn("RideDurationRaw", "RideDistance")]
     public double AverageSpeed
     {
       get
