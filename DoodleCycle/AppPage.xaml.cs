@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using NorthernLights;
 using Microsoft.Phone.Tasks;
@@ -62,11 +53,11 @@ namespace DoodleCycle
       DataContext = _viewModel;
     }
 
-    protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
       base.OnNavigatedTo(e);
 
-      if (System.Windows.Navigation.NavigationMode.Back == e.NavigationMode)
+      if (NavigationMode.Back == e.NavigationMode)
       {
         DataContext = null;
         // Need to reload the data as we're using "GoBack", and it doesn't refresh the data context.

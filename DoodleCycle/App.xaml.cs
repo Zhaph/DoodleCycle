@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Navigation;
 using DoodleCycle.Models;
-using DoodleCycle.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Shell;

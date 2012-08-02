@@ -1,9 +1,6 @@
 <MarketplaceDetails>
-  <SmallAppTile>
-  </SmallAppTile>
-  <LargeAppTile>
-  </LargeAppTile>
-  <PCAppTile>
-  </PCAppTile>
-  <ScreenShots>;;;;;;;;</ScreenShots>
+  <SmallAppTile>DoodleCycle-Dark.png</SmallAppTile>
+  <LargeAppTile>DoodleCycleBackground-Dark.png</LargeAppTile>
+  <PCAppTile>DoodleCycleMarketPlace-Dark.png</PCAppTile>
+  <ScreenShots>StartPage.png;RideDetails.png;Settings.png;About.png;;;;;</ScreenShots>
 </MarketplaceDetails>
