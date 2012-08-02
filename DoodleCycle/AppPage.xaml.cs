@@ -20,8 +20,7 @@ namespace DoodleCycle
   public partial class AppPage : PhoneApplicationPage
   {
     private AppViewModel _viewModel;
-
-
+    
     public AppPage()
     {
       InitializeComponent();
@@ -67,31 +66,12 @@ namespace DoodleCycle
     {
       base.OnNavigatedTo(e);
 
-      App.AppSettings.PropertyChanged += AppSettings_Changed;
-
       if (System.Windows.Navigation.NavigationMode.Back == e.NavigationMode)
       {
         DataContext = null;
+        // Need to reload the data as we're using "GoBack", and it doesn't refresh the data context.
+        _viewModel.LoadData();
         DataContext = _viewModel;
-      }
-    }
-
-    protected override void OnNavigatingFrom(System.Windows.Navigation.NavigatingCancelEventArgs e)
-    {
-      base.OnNavigatingFrom(e);
-
-      App.AppSettings.PropertyChanged -= AppSettings_Changed;
-    }
-
-    private void AppSettings_Changed(object sender, PropertyChangedEventArgs e)
-    {
-      switch (e.PropertyName)
-      {
-        case "MainUnits":
-          // Update Ride Values
-          break;
-        default:
-          break;
       }
     }
 

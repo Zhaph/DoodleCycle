@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Device.Location;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using DoodleCycle.Models;
-using DoodleCycle.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
@@ -14,10 +12,8 @@ namespace DoodleCycle.Views
   public partial class RidePage : PhoneApplicationPage
   {
     private bool _resumeLastRide;
-    private bool _rideStarted;
-    private bool _rideInProgress;
-    private bool _stopTimer;
     private bool _locationReady;
+    private RideState _rideState;
     private readonly ApplicationBarIconButton _startStopButton;
     private readonly IApplicationBarIconButton _pauseButton;
     private readonly int _second = 1000; // 1000 milliseconds.
@@ -32,7 +28,7 @@ namespace DoodleCycle.Views
     {
       InitializeComponent();
 
-      Loaded += RidePage_Loaded;
+      Loaded += ridePageLoaded;
 
       _timer = new Timer(secondTick, null, Timeout.Infinite, _second);
 
@@ -42,22 +38,14 @@ namespace DoodleCycle.Views
       _rideDc = new RideDataContext(App.ConnectionString);
     }
 
-    protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-    {
-      base.OnNavigatedTo(e);
-
-      string resumeValue;
-      NavigationContext.QueryString.TryGetValue("resumeRide", out resumeValue);
-
-      bool.TryParse(resumeValue, out _resumeLastRide);
-    }
-
-    private void RidePage_Loaded(object sender, RoutedEventArgs e)
+    private void ridePageLoaded(object sender, RoutedEventArgs e)
     {
       // Initialise Location Services...
 
       if (App.AppSettings.EnableLocationServices)
       {
+        StatusText.Text = "initialising...";
+        ProgressBar.Visibility = Visibility.Visible;
         // Start Location Watcher:
         if (null == _location)
         {
@@ -74,6 +62,11 @@ namespace DoodleCycle.Views
         {
           NavigationService.Navigate(new Uri("/DoodleCycle;component/Views/SettingsPage.xaml", UriKind.Relative));
         }
+        else
+        {
+          StatusText.Text = "Location Services are disabled in Settings. Please ensure you turn them on.";
+          ProgressBar.Visibility = Visibility.Collapsed;
+        }
       }
 
       preparePage();
@@ -81,19 +74,15 @@ namespace DoodleCycle.Views
 
     private void locationPositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
     {
-      if (_locationReady)
-      {
-        // Location services have just started up, so pick up the current position as the "last" position for the ride, we might not be in exactly the same place ;)
-        _locationReady = false;
-        _lastPositionTimestamp = e.Position.Timestamp;
-        _currentRide.LastPosition = e.Position.Location;
-      }
-
-      if (_rideInProgress)
+      if (RideState.InProgressRunning == _rideState)
       {
         double distanceFromLast = _currentRide.LastPosition.GetDistanceTo(e.Position.Location);
         _currentRide.RideDistance += distanceFromLast;
-        _currentRide.CurrentSpeed = distanceFromLast / e.Position.Timestamp.Subtract(_lastPositionTimestamp).TotalSeconds; 
+        _currentRide.CurrentSpeed = distanceFromLast / e.Position.Timestamp.Subtract(_lastPositionTimestamp).TotalSeconds;
+        if (_currentRide.TopSpeed < _currentRide.CurrentSpeed)
+        {
+          _currentRide.TopSpeed = _currentRide.CurrentSpeed;
+        }
         _currentRide.LastPosition = e.Position.Location;
         _lastPositionTimestamp = e.Position.Timestamp;
       }
@@ -145,11 +134,76 @@ namespace DoodleCycle.Views
       }
     }
 
+    private void secondTick(object state)
+    {
+      Deployment.Current.Dispatcher.BeginInvoke(() =>
+      {
+        _currentRide.RideDurationRaw++;
+      }
+        );
+    }
+
+    private void startStopRideButtonClick(object sender, EventArgs e)
+    {
+      if (RideState.Unstarted == _rideState)
+      {
+        // Get the current position from the Location Service
+        _lastPositionTimestamp = _location.Position.Timestamp;
+        _currentRide.LastPosition = _location.Position.Location;
+        _currentRide.CurrentSpeed = 0.0;
+
+        // Start ride, enable Pause button...
+        _pauseButton.IsEnabled = true;
+        
+        setStopButton();
+        _currentRide.RideStartTime = DateTime.Now;
+        startTimer();
+        _rideState = RideState.InProgressRunning;
+      }
+      else
+      {
+        // Stop ride, disable Pause button...
+        _rideState = RideState.Stopped;
+        stopTimer();
+        _pauseButton.IsEnabled = false;
+        _startStopButton.IsEnabled = false;
+
+        // Save Ride to Database...
+        _rideDc.SubmitChanges();
+
+        CloseRide.Visibility = Visibility.Visible;
+      }
+    }
+
+    private void setStopButton()
+    {
+      _startStopButton.IconUri = new Uri("/Content/Images/appbar.control.stop.png", UriKind.Relative);
+      _startStopButton.Text = "Stop";
+    }
+
+    private void pauseRideButtonClick(object sender, EventArgs e)
+    {
+      // Invert Ride in progress...
+      if (RideState.InProgressRunning == _rideState)
+      {
+        _rideState = RideState.InProgressPaused;
+        stopTimer();
+      }
+      else
+      {
+        _rideState = RideState.InProgressRunning;
+        startTimer();
+      }
+
+    }
+
     private void preparePage()
     {
-      if (_rideInProgress || _resumeLastRide)
+      if (RideState.Unstarted != _rideState || _resumeLastRide)
       {
-        _rideStarted = true;
+        _rideState = RideState.InProgressPaused;
+        setStopButton();
+        _startStopButton.IsEnabled = true;
         _pauseButton.IsEnabled = true;
       }
 
@@ -168,6 +222,26 @@ namespace DoodleCycle.Views
       DataContext = _currentRide;
     }
 
+    private void startTimer()
+    {
+      _timer.Change(_second, _second);
+    }
+
+    private void stopTimer()
+    {
+      _timer.Change(Timeout.Infinite, Timeout.Infinite);
+    }
+
+    protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+    {
+      base.OnNavigatedTo(e);
+
+      string resumeValue;
+      NavigationContext.QueryString.TryGetValue("resumeRide", out resumeValue);
+
+      bool.TryParse(resumeValue, out _resumeLastRide);
+    }
+
     protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
     {
       base.OnNavigatedFrom(e);
@@ -179,74 +253,18 @@ namespace DoodleCycle.Views
       NavigationService.Navigate(new Uri("/DoodleCycle;component/Views/SettingsPage.xaml", UriKind.Relative));
     }
 
-    private void CloseRideClicked(object sender, RoutedEventArgs e)
+    private void closeRideClicked(object sender, RoutedEventArgs e)
     {
       _location.Stop();
       NavigationService.GoBack();
     }
+  }
 
-    private void startTimer()
-    {
-      _timer.Change(_second, _second);
-    }
-
-    private void stopTimer()
-    {
-      _timer.Change(Timeout.Infinite, Timeout.Infinite);
-    }
-
-    private void secondTick(object state)
-    {
-      Deployment.Current.Dispatcher.BeginInvoke(() =>
-                                                  {
-                                                    _currentRide.RideDurationRaw++;
-                                                  }
-        );
-    }
-
-
-
-    private void startStopRideButtonClick(object sender, EventArgs e)
-    {
-      if (!_rideInProgress)
-      {
-        // Start ride, enable Pause button...
-        _pauseButton.IsEnabled = true;
-        _startStopButton.IconUri = new Uri("/Content/Images/appbar.control.stop.png", UriKind.Relative);
-        _startStopButton.Text = "Stop";
-        _rideStarted = true;
-        _currentRide.RideStartTime = DateTime.Now;
-        startTimer();
-        _rideInProgress = true;
-      }
-      else
-      {
-        // Stop ride, disable Pause button...
-        _rideInProgress = false;
-        stopTimer();
-        _pauseButton.IsEnabled = false;
-        _startStopButton.IsEnabled = false;
-        CloseRide.Visibility = Visibility.Visible;
-
-        // Save Ride to Database...
-        _rideDc.SubmitChanges();
-      }
-    }
-
-    private void pauseRideButtonClick(object sender, EventArgs e)
-    {
-      // Invert Ride in progress...
-      if (_rideInProgress)
-      {
-        _rideInProgress = false;
-        stopTimer();
-      }
-      else
-      {
-        _rideInProgress = true;
-        startTimer();
-      }
-
-    }
+  internal enum RideState
+  {
+    Unstarted,
+    InProgressRunning,
+    InProgressPaused,
+    Stopped,
   }
 }

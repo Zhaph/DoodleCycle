@@ -35,8 +35,8 @@
     </StackPanel>
 
     <Grid x:Name="InitialisingPanel" Grid.Row="1" Margin="12,0,12,0">
-      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <TextBlock x:Name="StatusText" Text="initialising..." Style="{StaticResource PhoneTextSmallStyle}" />
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="{StaticResource PhoneHorizontalMargin}">
+        <TextBlock x:Name="StatusText" TextWrapping="Wrap" HorizontalAlignment="Center" Text="initialising..." Style="{StaticResource PhoneTextSmallStyle}" />
         <toolkit:PerformanceProgressBar VerticalAlignment="Top" x:Name="ProgressBar" Margin="0,6,0,0" IsIndeterminate="True"/>
       </StackPanel>
     </Grid>
@@ -51,7 +51,7 @@
         <TextBlock Text="{Binding CurrentSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeCentred}" />
         <TextBlock Text="Average Speed" Style="{StaticResource SmallCentred}" />
         <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
-        <Button x:Name="CloseRide" Content="Close Ride" Click="CloseRideClicked" Visibility="Collapsed" />
+        <Button x:Name="CloseRide" Content="Close Ride" Click="closeRideClicked" Visibility="Collapsed" />
 
       </StackPanel>
     </Grid>

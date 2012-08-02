@@ -3,6 +3,7 @@ using System.Windows.Navigation;
 using DoodleCycle.Models;
 using DoodleCycle.ViewModels;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Shell;
 using NorthernLights;
 
@@ -12,6 +13,8 @@ namespace DoodleCycle
   {
     private static readonly string _connectionString = "Data Source=isostore:/DoodleCycle.sdf";
     private static AppSettings _appSettings;
+    // The current version of the application.
+    internal static int AppVersion = 1;
 
     public static AppSettings AppSettings
     {
@@ -74,6 +77,28 @@ namespace DoodleCycle
         {
           // Create the local database
           db.CreateDatabase();
+
+          // Set the new database version.
+          DatabaseSchemaUpdater dbUpdater = db.CreateDatabaseSchemaUpdater();
+          dbUpdater.DatabaseSchemaVersion = AppVersion;
+          dbUpdater.Execute();
+        }
+        else
+        {
+          // Check whether a database update is needed.
+          DatabaseSchemaUpdater dbUpdater = db.CreateDatabaseSchemaUpdater();
+
+          if (dbUpdater.DatabaseSchemaVersion < AppVersion)
+          {
+            // Add the Priority column (added in version 2).
+            //dbUpdater.AddColumn<ToDoItem>("Priority");
+
+            // Add the new database version.
+            //dbUpdater.DatabaseSchemaVersion = AppVersion;
+
+            // Perform the database update in a single transaction.
+            //dbUpdater.Execute();
+          }
         }
       }
 

@@ -46,6 +46,9 @@ namespace DoodleCycle.Models
     [Column(DbType = "FLOAT")]
     public double AltitudeChange { get; set; }
 
+    [Column(DbType = "FLOAT")]
+    public double TopSpeed { get; set; }
+
     [DependsOn("LastPosition")]
     [Column(DbType = "FLOAT")]
     public double LastLatitude { get; set; }
@@ -71,7 +74,15 @@ namespace DoodleCycle.Models
 
         return _lastPosition;
       }
-      set { _lastPosition = value; }
+      set {
+        if (value != _lastPosition)
+        {
+          _lastPosition = value;
+          LastAltitude = !double.IsNaN(_lastPosition.Altitude) ? _lastPosition.Altitude : 0.0;
+          LastLatitude = _lastPosition.Latitude;
+          LastLongitude = _lastPosition.Longitude;
+        }
+      }
     }
 
     [DependsOn("RideDurationRaw")]
