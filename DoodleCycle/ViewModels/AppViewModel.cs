@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using DoodleCycle.Models;
 
@@ -24,6 +26,8 @@ namespace DoodleCycle.ViewModels
 
     public Ride SummaryRide { get; private set; }
 
+    public ObservableCollection<Ride> AllRides { get; private set; }
+
     public void LoadData()
     {
       // Get last ride.
@@ -47,6 +51,9 @@ namespace DoodleCycle.ViewModels
       {
         SummaryRide = new Ride { RideDistance = 0.0, RideDurationRaw = 0 };
       }
+
+      AllRides = new ObservableCollection<Ride>(from r in _rideDc.Rides orderby r.RideStartTime descending select r);
+
       IsDataLoaded = true;
     }
 

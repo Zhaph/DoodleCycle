@@ -22,13 +22,28 @@
     </Style>
     <Style x:Key="SmallCentred" TargetType="TextBlock">
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
-      <Setter Property="Margin" Value="0, 6, 0, 6" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="SmallLeft" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="SmallRight" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
     <Style x:Key="ExtraLargeCentred" TargetType="TextBlock">
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}" />
-      <Setter Property="Margin" Value="0, 6, 0, 12" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="ExtraLargeRight" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
     <Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">
       <Setter Property="toolkit:TransitionService.NavigationInTransition">

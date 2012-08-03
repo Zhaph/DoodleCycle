@@ -20,6 +20,7 @@ namespace DoodleCycle.Classes
     {
       var speed = value is double ? (double) value : 0d;
 
+      // Average Speed is already in the right units.
       if (null != parameter)
       {
         // speed's in m/s, need to convert:

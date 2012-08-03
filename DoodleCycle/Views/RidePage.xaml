@@ -35,22 +35,38 @@
     </StackPanel>
 
     <Grid x:Name="InitialisingPanel" Grid.Row="1" Margin="12,0,12,0">
-      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="{StaticResource PhoneHorizontalMargin}">
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="{StaticResource PhoneHorizontalMargin}" Visibility="Visible">
         <TextBlock x:Name="StatusText" TextWrapping="Wrap" HorizontalAlignment="Center" Text="initialising..." Style="{StaticResource PhoneTextSmallStyle}" />
         <toolkit:PerformanceProgressBar VerticalAlignment="Top" x:Name="ProgressBar" Margin="0,6,0,0" IsIndeterminate="True"/>
       </StackPanel>
     </Grid>
     <!--ContentPanel - place additional content here-->
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Visibility="Collapsed">
-      <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center">
+      <StackPanel VerticalAlignment="Top" HorizontalAlignment="Stretch">
         <TextBlock Text="Elapsed Time" Style="{StaticResource SmallCentred}" />
         <TextBlock Text="{Binding RideDuration, Converter={StaticResource TSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
         <TextBlock Text="Distance" Style="{StaticResource SmallCentred}" />
         <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" Style="{StaticResource ExtraLargeCentred}" />
-        <TextBlock Text="Current Speed" Style="{StaticResource SmallCentred}" />
-        <TextBlock Text="{Binding CurrentSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeCentred}" />
-        <TextBlock Text="Average Speed" Style="{StaticResource SmallCentred}" />
-        <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
+        <Grid HorizontalAlignment="Stretch">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="Current Speed" Style="{StaticResource SmallLeft}" Grid.Column="0" Grid.Row="0" />
+          <TextBlock Text="{Binding CurrentSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource PhoneTextExtraLargeStyle}" Grid.Column="0" Grid.Row="1" />
+          <TextBlock Text="Average Speed" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="0" />
+          <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource ExtraLargeRight}" Grid.Column="1" Grid.Row="1" />
+          <TextBlock Text="Elevation Gain" Style="{StaticResource SmallLeft}" Grid.Column="0" Grid.Row="2" />
+          <TextBlock Text="{Binding AltitudeChange, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource PhoneTextExtraLargeStyle}" Grid.Column="0" Grid.Row="3" />
+          <TextBlock Text="Top Speed" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="2" />
+          <TextBlock Text="{Binding TopSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeRight}" Grid.Column="1" Grid.Row="3" />
+        </Grid>
         <Button x:Name="CloseRide" Content="Close Ride" Click="closeRideClicked" Visibility="Collapsed" />
 
       </StackPanel>

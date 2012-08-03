@@ -19,6 +19,30 @@
     <dc:TimespanToStringConverter x:Key="TSConverter"/>
     <dc:DoubleToDistanceStringConverter x:Key="DDSConverter"/>
     <dc:DoubleToSpeedStringConverter x:Key="DSSConverter"/>
+    <DataTemplate x:Key="RideItemTemplate">
+      <Grid HorizontalAlignment="Stretch" Width="420">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="3*" />
+          <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+          <TextBlock Text="duration:" Style="{StaticResource PhoneTextBlockBase}" />
+          <TextBlock Text="{Binding RideDuration, Converter={StaticResource TSConverter}}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+          <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}" />
+          <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" />
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="average speed:" />
+          <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource PhoneTextBlockBase}" />
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
   </phone:PhoneApplicationPage.Resources>
   <!--LayoutRoot is the root grid where all page content is placed-->
   <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -56,7 +80,13 @@
 
       <!--Pivot item two-->
       <controls:PivotItem Header="Review">
-        <Grid HorizontalAlignment="Stretch"/>
+        <Grid HorizontalAlignment="Stretch">
+          <ListBox 
+                        x:Name="allRides" 
+                        ItemsSource="{Binding AllRides}" 
+                        Margin="12, 0, 12, 0" Width="440" 
+                        ItemTemplate="{StaticResource RideItemTemplate}" />
+        </Grid>
       </controls:PivotItem>
     </controls:Pivot>
   </Grid>

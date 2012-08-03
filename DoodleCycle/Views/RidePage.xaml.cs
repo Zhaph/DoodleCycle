@@ -79,11 +79,17 @@ namespace DoodleCycle.Views
       if (RideState.InProgressRunning == _rideState)
       {
         double distanceFromLast = _currentRide.LastPosition.GetDistanceTo(e.Position.Location);
+        double currentSpeed = distanceFromLast/e.Position.Timestamp.Subtract(_lastPositionTimestamp).TotalSeconds;
+        double elevationGain = (e.Position.Location.Altitude > _currentRide.LastPosition.Altitude)
+                                 ? e.Position.Location.Altitude - _currentRide.LastPosition.Altitude
+                                 : 0.0;
+
         _currentRide.RideDistance += distanceFromLast;
-        _currentRide.CurrentSpeed = distanceFromLast / e.Position.Timestamp.Subtract(_lastPositionTimestamp).TotalSeconds;
-        if (_currentRide.TopSpeed < _currentRide.CurrentSpeed)
+        _currentRide.CurrentSpeed = currentSpeed;
+        _currentRide.AltitudeChange += elevationGain;
+        if (_currentRide.TopSpeed < currentSpeed)
         {
-          _currentRide.TopSpeed = _currentRide.CurrentSpeed;
+          _currentRide.TopSpeed = currentSpeed;
         }
         _currentRide.LastPosition = e.Position.Location;
         _lastPositionTimestamp = e.Position.Timestamp;
