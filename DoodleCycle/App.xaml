@@ -18,30 +18,35 @@
     <Style x:Key="AccentTitle" TargetType="TextBlock">
       <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}" />
-      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="Margin" Value="12, 6" />
     </Style>
     <Style x:Key="SmallCentred" TargetType="TextBlock">
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
-      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="Margin" Value="12, 6" />
       <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
     <Style x:Key="SmallLeft" TargetType="TextBlock">
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
-      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="Margin" Value="12, 6" />
       <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
     <Style x:Key="SmallRight" TargetType="TextBlock">
       <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeSmall}" />
-      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="Margin" Value="12, 6" />
       <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
-    <Style x:Key="ExtraLargeCentred" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}" />
+    <Style x:Key="LargeRideDetailsLeft" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}" />
+      <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="LargeRideDetailsCentred" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}" />
       <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
       <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
-    <Style x:Key="ExtraLargeRight" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}" />
+    <Style x:Key="LargeRideDetailsRight" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeLarge}" />
       <Setter Property="Margin" Value="{StaticResource PhoneHorizontalMargin}" />
       <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>

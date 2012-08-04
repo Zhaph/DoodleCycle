@@ -29,7 +29,7 @@ namespace DoodleCycle.Classes
       }
       else
       {
-        distance = Units.Metric == App.AppSettings.ElevationUnits ? ShortDistance(metres, Units.Metric).ToString("0.0' m'", culture) : ShortDistance(metres, Units.Imperial).ToString(@"0.0' \''", culture);
+        distance = Units.Metric == App.AppSettings.ElevationUnits ? ShortDistance(metres, Units.Metric).ToString("0.0' m'", culture) : ShortDistance(metres, Units.Imperial).ToString(@"0.0'′'", culture);
       }
 
       return distance;

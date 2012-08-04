@@ -44,11 +44,13 @@
     <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Visibility="Collapsed">
       <StackPanel VerticalAlignment="Top" HorizontalAlignment="Stretch">
         <TextBlock Text="Elapsed Time" Style="{StaticResource SmallCentred}" />
-        <TextBlock Text="{Binding RideDuration, Converter={StaticResource TSConverter}}" Style="{StaticResource ExtraLargeCentred}" />
+        <TextBlock Text="{Binding RideDuration, Converter={StaticResource TSConverter}}" Style="{StaticResource LargeRideDetailsCentred}" />
         <TextBlock Text="Distance" Style="{StaticResource SmallCentred}" />
-        <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" Style="{StaticResource ExtraLargeCentred}" />
+        <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" Style="{StaticResource LargeRideDetailsCentred}" />
         <Grid HorizontalAlignment="Stretch">
           <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -59,13 +61,22 @@
             <ColumnDefinition Width="2*" />
           </Grid.ColumnDefinitions>
           <TextBlock Text="Current Speed" Style="{StaticResource SmallLeft}" Grid.Column="0" Grid.Row="0" />
-          <TextBlock Text="{Binding CurrentSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource PhoneTextExtraLargeStyle}" Grid.Column="0" Grid.Row="1" />
+          <TextBlock Text="{Binding CurrentSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource LargeRideDetailsLeft}" Grid.Column="0" Grid.Row="1" />
           <TextBlock Text="Average Speed" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="0" />
-          <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource ExtraLargeRight}" Grid.Column="1" Grid.Row="1" />
+          <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource LargeRideDetailsRight}" Grid.Column="1" Grid.Row="1" />
           <TextBlock Text="Elevation Gain" Style="{StaticResource SmallLeft}" Grid.Column="0" Grid.Row="2" />
-          <TextBlock Text="{Binding AltitudeChange, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource PhoneTextExtraLargeStyle}" Grid.Column="0" Grid.Row="3" />
+          <TextBlock Text="{Binding AltitudeChange, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource LargeRideDetailsLeft}" Grid.Column="0" Grid.Row="3" />
           <TextBlock Text="Top Speed" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="2" />
-          <TextBlock Text="{Binding TopSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource ExtraLargeRight}" Grid.Column="1" Grid.Row="3" />
+          <TextBlock Text="{Binding TopSpeed, Converter={StaticResource DSSConverter}, ConverterParameter=True}" Style="{StaticResource LargeRideDetailsRight}" Grid.Column="1" Grid.Row="3" />
+          <TextBlock Text="Vertical Accuracy" Style="{StaticResource SmallLeft}" Grid.Column="0" Grid.Row="4" />
+          <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Column="0" Grid.Row="5">
+            <TextBlock Text="{Binding LastPosition.VerticalAccuracy, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallLeft}" />
+            <TextBlock Text=" (" Style="{StaticResource SmallLeft}"/>
+            <TextBlock Text="{Binding LastPosition.Altitude, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallLeft}" />
+            <TextBlock Text=")" Style="{StaticResource SmallLeft}"/>
+          </StackPanel>
+          <TextBlock Text="Horizontal Accuracy" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="4" />
+          <TextBlock Text="{Binding LastPosition.HorizontalAccuracy, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="5" />
         </Grid>
         <Button x:Name="CloseRide" Content="Close Ride" Click="closeRideClicked" Visibility="Collapsed" />
 
