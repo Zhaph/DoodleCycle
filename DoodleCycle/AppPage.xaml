@@ -36,7 +36,7 @@
           <TextBlock Text="{Binding RideDuration, Converter={StaticResource TSConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
         </StackPanel>
         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Grid.Column="0" Grid.Row="2">
-          <TextBlock Text="distance:" Style="{StaticResource PhoneTextBlockBase}" Margin="12, 0, 6, 0" />
+          <TextBlock Text="distance:" Style="{StaticResource PhoneTextNormalStyle}" Margin="12, 0, 6, 0" />
           <TextBlock Text="{Binding RideDistance, Converter={StaticResource DDSConverter}, ConverterParameter=Main}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
           <TextBlock Text=", average speed: " Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
           <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
