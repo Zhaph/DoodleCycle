@@ -71,9 +71,9 @@
           <TextBlock Text="Vertical Accuracy" Style="{StaticResource SmallLeft}" Grid.Column="0" Grid.Row="4" />
           <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Grid.Column="0" Grid.Row="5">
             <TextBlock Text="{Binding LastPosition.VerticalAccuracy, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallLeft}" />
-            <TextBlock Text=" (" Style="{StaticResource SmallLeft}"/>
-            <TextBlock Text="{Binding LastPosition.Altitude, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallLeft}" />
-            <TextBlock Text=")" Style="{StaticResource SmallLeft}"/>
+            <TextBlock Text=" (" Style="{StaticResource SmallLeft}" Margin="0, 6"/>
+            <TextBlock Text="{Binding LastPosition.Altitude, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallLeft}" Margin="0, 6" />
+            <TextBlock Text=")" Style="{StaticResource SmallLeft}" Margin="0, 6" />
           </StackPanel>
           <TextBlock Text="Horizontal Accuracy" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="4" />
           <TextBlock Text="{Binding LastPosition.HorizontalAccuracy, Converter={StaticResource DDSConverter}, ConverterParameter=Elevation}" Style="{StaticResource SmallRight}" Grid.Column="1" Grid.Row="5" />

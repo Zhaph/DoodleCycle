@@ -101,6 +101,9 @@ namespace DoodleCycle.Views
       switch (e.Status)
       {
         case GeoPositionStatus.Disabled:
+          // Make sure InitialisingPanel is shown.
+          InitialisingPanel.Visibility = Visibility.Visible;
+          ContentPanel.Visibility = Visibility.Collapsed;
           // The Location Service is Disabled or unsupported.
           // Check to see whether the user has disabled the location service:
           if (GeoPositionPermission.Denied == _location.Permission)
@@ -116,14 +119,20 @@ namespace DoodleCycle.Views
           }
           break;
         case GeoPositionStatus.Initializing:
-          // Nothing to do, we should already be in this state...
+          // Make sure InitialisingPanel is shown.
+          InitialisingPanel.Visibility = Visibility.Visible;
+          ContentPanel.Visibility = Visibility.Collapsed;
           break;
         case GeoPositionStatus.NoData:
+          // Make sure InitialisingPanel is shown.
+          InitialisingPanel.Visibility = Visibility.Visible;
+          ContentPanel.Visibility = Visibility.Collapsed;
           // Location service is working, but cannot get location data.
           StatusText.Text = "Unable to retrieve location data.";
           ProgressBar.Visibility = Visibility.Collapsed;
           break;
         case GeoPositionStatus.Ready:
+          // Swap panels over so we can show the ride details.
           InitialisingPanel.Visibility = Visibility.Collapsed;
           ContentPanel.Visibility = Visibility.Visible;
 
