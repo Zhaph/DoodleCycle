@@ -23,6 +23,7 @@ namespace DoodleCycle.Views
     private Ride _currentRide;
     private readonly RideDataContext _rideDc;
     private DateTimeOffset _lastPositionTimestamp;
+    private double _lastGoodAltitude;
 
     private GeoCoordinateWatcher _location;
 
@@ -80,20 +81,26 @@ namespace DoodleCycle.Views
       {
         double distanceFromLast = _currentRide.LastPosition.GetDistanceTo(e.Position.Location);
         double currentSpeed = distanceFromLast/e.Position.Timestamp.Subtract(_lastPositionTimestamp).TotalSeconds;
-        double elevationGain = (e.Position.Location.Altitude > _currentRide.LastPosition.Altitude)
-                                 ? e.Position.Location.Altitude - _currentRide.LastPosition.Altitude
-                                 : 0.0;
+
+        double elevationGain = 0.0;
+        
+        if (17 > e.Position.Location.VerticalAccuracy && e.Position.Location.Altitude > _lastGoodAltitude)
+        {
+          // We've gone up in the world, and we're fairly sure about it
+          elevationGain = e.Position.Location.Altitude - _lastGoodAltitude;
+          _lastGoodAltitude = e.Position.Location.Altitude;
+        }
 
         _currentRide.RideDistance += distanceFromLast;
         _currentRide.CurrentSpeed = currentSpeed;
-        if (15 > e.Position.Location.VerticalAccuracy)
-        {
-          _currentRide.AltitudeChange += elevationGain;
-        }
+        _currentRide.AltitudeChange += elevationGain;
+
         if (_currentRide.TopSpeed < currentSpeed)
         {
           _currentRide.TopSpeed = currentSpeed;
         }
+
+        // Update ride...
         _currentRide.LastPosition = e.Position.Location;
         _lastPositionTimestamp = e.Position.Timestamp;
       }
@@ -170,6 +177,8 @@ namespace DoodleCycle.Views
         _currentRide.RideStartTime = DateTime.Now;
         _lastPositionTimestamp = _location.Position.Timestamp;
         _currentRide.LastPosition = _location.Position.Location;
+        // Got to baseline it somewhere...
+        _lastGoodAltitude = _location.Position.Location.Altitude;
         _currentRide.CurrentSpeed = 0.0;
 
         // Start ride, enable Pause button...
