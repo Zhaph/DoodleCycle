@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
+using DoodleCycle.Models;
 using Microsoft.Phone.Controls;
 using NorthernLights;
 using Microsoft.Phone.Tasks;
@@ -84,6 +86,18 @@ namespace DoodleCycle
     private void aboutMenuItemClicked(object sender, EventArgs e)
     {
       NavigationService.Navigate(new Uri("/YourLastAboutDialog;component/AboutPage.xaml", UriKind.Relative));
+    }
+
+    private void allRidesSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      throw new NotImplementedException();
+    }
+
+    private void deleteRideClicked(object sender, RoutedEventArgs e)
+    {
+      var rideToDelete = (Ride)((MenuItem)sender).DataContext;
+
+      _viewModel.DeleteRide(rideToDelete);
     }
   }
 }

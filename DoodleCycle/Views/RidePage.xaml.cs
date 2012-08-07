@@ -9,6 +9,7 @@ using System.Windows.Navigation;
 using DoodleCycle.Models;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using YourLastAboutDialog;
 
 namespace DoodleCycle.Views
 {
@@ -19,6 +20,7 @@ namespace DoodleCycle.Views
     private readonly ApplicationBarIconButton _startStopButton;
     private readonly IApplicationBarIconButton _pauseButton;
     private readonly int _second = 1000; // 1000 milliseconds.
+    private readonly TimeSpan _trialLimit = new TimeSpan(0, 15, 0);
     private readonly Timer _timer;
     private Ride _currentRide;
     private readonly RideDataContext _rideDc;
@@ -167,6 +169,26 @@ namespace DoodleCycle.Views
         _currentRide.RideDurationRaw++;
       }
         );
+
+      if (App.IsTrial && _trialLimit < _currentRide.RideDuration)
+      {
+        stopTimer();
+        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                                                    {
+                                                      stopRide();
+                                                      if (MessageBoxResult.OK ==
+                                                          MessageBox.Show(
+                                                            string.Format(
+                                                              "Rides limited to {0} minutes in trial mode. See About page for more details.",
+                                                              _trialLimit.TotalMinutes), "trial mode limit reached",
+                                                            MessageBoxButton.OKCancel))
+                                                      {
+                                                        NavigationService.Navigate(
+                                                          new Uri(string.Format("/YourLastAboutDialog;component/AboutPage.xaml?{0}={1}", AboutPage.ForceBuyButtonKey, App.IsTrial),
+                                                                  UriKind.Relative));
+                                                      }
+                                                    });
+      }
     }
 
     private void startStopRideButtonClick(object sender, EventArgs e)
@@ -191,20 +213,25 @@ namespace DoodleCycle.Views
       else
       {
         // Stop ride, disable Pause button...
-        _rideState = RideState.Stopped;
-        stopTimer();
-        _pauseButton.IsEnabled = false;
-        _startStopButton.IsEnabled = false;
+        stopRide();
+      }
+    }
+
+    private void stopRide()
+    {
+      _rideState = RideState.Stopped;
+      stopTimer();
+      _pauseButton.IsEnabled = false;
+      _startStopButton.IsEnabled = false;
 
 //        IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication();
 //        using (_rideDc.Log = new StreamWriter(iso.CreateFile("log.txt")))
-        {
-          // Save Ride to Database...
-          _rideDc.SubmitChanges();
-        }
-
-        CloseRide.Visibility = Visibility.Visible;
+      {
+        // Save Ride to Database...
+        _rideDc.SubmitChanges();
       }
+
+      CloseRide.Visibility = Visibility.Visible;
     }
 
     private void setPauseButton()

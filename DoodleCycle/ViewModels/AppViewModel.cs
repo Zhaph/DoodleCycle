@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace DoodleCycle.ViewModels
 
     public void SaveChanges()
     {
-      //_rideDc.SubmitChanges();
+      _rideDc.SubmitChanges();
     }
 
     public Ride LastRide { get; private set; }
@@ -58,5 +59,14 @@ namespace DoodleCycle.ViewModels
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
+
+    public void DeleteRide(Ride rideToDelete)
+    {
+      AllRides.Remove(rideToDelete);
+
+      _rideDc.Rides.DeleteOnSubmit(rideToDelete);
+
+      SaveChanges();
+    }
   }
 }

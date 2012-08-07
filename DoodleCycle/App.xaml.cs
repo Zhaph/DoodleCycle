@@ -3,6 +3,7 @@ using System.Windows.Navigation;
 using DoodleCycle.Models;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Data.Linq;
+using Microsoft.Phone.Marketplace;
 using Microsoft.Phone.Shell;
 using NorthernLights;
 
@@ -14,6 +15,10 @@ namespace DoodleCycle
     private static AppSettings _appSettings;
     // The current version of the application.
     internal static int AppVersion = 1;
+
+    private static LicenseInformation _licenseInfo = new LicenseInformation();
+
+    public static bool IsTrial { get; private set; }
 
     public static AppSettings AppSettings
     {
@@ -125,6 +130,7 @@ namespace DoodleCycle
     // This code will not execute when the application is reactivated
     private void Application_Launching(object sender, LaunchingEventArgs e)
     {
+      checkLicense();
     }
 
     // Code to execute when the application is activated (brought to foreground)
@@ -132,6 +138,7 @@ namespace DoodleCycle
     private void Application_Activated(object sender, ActivatedEventArgs e)
     {
       // Ensure that application state is restored appropriately
+      checkLicense();
     }
 
     // Code to execute when the application is deactivated (sent to background)
@@ -171,6 +178,22 @@ namespace DoodleCycle
 
       // Log it for later
       LittleWatson.SaveExceptionForReporting(e.ExceptionObject);
+    }
+
+    /// <summary>
+    /// Check the current license information for this application
+    /// </summary>
+    private void checkLicense()
+    {
+      // When debugging, we want to simulate a trial mode experience. The following conditional allows us to set the _isTrial 
+      // property to simulate trial mode being on or off. 
+#if DEBUG
+      string message = "Press 'OK' to simulate trial mode. Press 'Cancel' to run the application in normal mode.";
+      IsTrial = MessageBox.Show(message, "Debug Trial",
+                                MessageBoxButton.OKCancel) == MessageBoxResult.OK;
+#else
+            IsTrial = _licenseInfo.IsTrial();
+#endif
     }
 
     #region Phone application initialization

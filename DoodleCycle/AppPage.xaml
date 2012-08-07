@@ -7,6 +7,7 @@
   xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+  xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
   xmlns:dc="clr-namespace:DoodleCycle.Classes"
   mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
   FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -41,6 +42,11 @@
           <TextBlock Text=", average speed: " Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
           <TextBlock Text="{Binding AverageSpeed, Converter={StaticResource DSSConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Margin="0" />
         </StackPanel>
+        <toolkit:ContextMenuService.ContextMenu>
+          <toolkit:ContextMenu>
+            <toolkit:MenuItem Header="delete ride" Click="deleteRideClicked" />
+          </toolkit:ContextMenu>
+        </toolkit:ContextMenuService.ContextMenu>
       </Grid>
     </DataTemplate>
   </phone:PhoneApplicationPage.Resources>
@@ -82,11 +88,12 @@
       <controls:PivotItem Header="Review">
         <Grid HorizontalAlignment="Stretch">
           <ListBox 
-                        x:Name="allRides" 
-                        ItemsSource="{Binding AllRides}"
-                        HorizontalAlignment="Stretch"
-                        Margin="0, 0, 0, 0" 
-                        ItemTemplate="{StaticResource RideItemTemplate}" />
+            x:Name="allRides"
+            ItemsSource="{Binding AllRides}"
+            HorizontalAlignment="Stretch"
+            Margin="0, 0, 0, 0"
+            SelectionChanged="allRidesSelectionChanged"
+            ItemTemplate="{StaticResource RideItemTemplate}" />
         </Grid>
       </controls:PivotItem>
     </controls:Pivot>
