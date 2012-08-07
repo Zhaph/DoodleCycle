@@ -86,7 +86,10 @@ namespace DoodleCycle.Views
 
         _currentRide.RideDistance += distanceFromLast;
         _currentRide.CurrentSpeed = currentSpeed;
-        _currentRide.AltitudeChange += elevationGain;
+        if (15 > e.Position.Location.VerticalAccuracy)
+        {
+          _currentRide.AltitudeChange += elevationGain;
+        }
         if (_currentRide.TopSpeed < currentSpeed)
         {
           _currentRide.TopSpeed = currentSpeed;
