@@ -25,7 +25,7 @@ namespace DoodleCycle.Views
     private Ride _currentRide;
     private readonly RideDataContext _rideDc;
     private DateTimeOffset _lastPositionTimestamp;
-    private double _lastGoodAltitude;
+    private double _lastGoodAltitude = double.NaN;
 
     private GeoCoordinateWatcher _location;
 
@@ -86,10 +86,10 @@ namespace DoodleCycle.Views
 
         double elevationGain = 0.0;
         
-        if (17 > e.Position.Location.VerticalAccuracy && e.Position.Location.Altitude > _lastGoodAltitude)
+        if (17 > e.Position.Location.VerticalAccuracy && (double.IsNaN(_lastGoodAltitude) || e.Position.Location.Altitude > _lastGoodAltitude))
         {
           // We've gone up in the world, and we're fairly sure about it
-          elevationGain = e.Position.Location.Altitude - _lastGoodAltitude;
+          elevationGain = !double.IsNaN(_lastGoodAltitude) ? e.Position.Location.Altitude - _lastGoodAltitude : 0.0;
           _lastGoodAltitude = e.Position.Location.Altitude;
         }
 
