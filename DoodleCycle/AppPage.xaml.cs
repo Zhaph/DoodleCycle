@@ -12,7 +12,7 @@ namespace DoodleCycle
 {
   public partial class AppPage : PhoneApplicationPage
   {
-    private AppViewModel _viewModel;
+    private readonly AppViewModel _viewModel;
     
     public AppPage()
     {
