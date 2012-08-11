@@ -31,6 +31,15 @@ namespace DoodleCycle.ViewModels
 
     public void LoadData()
     {
+      loadSummaryDetails();
+
+      AllRides = new ObservableCollection<Ride>(from r in _rideDc.Rides orderby r.RideStartTime descending select r);
+
+      IsDataLoaded = true;
+    }
+
+    private void loadSummaryDetails()
+    {
       // Get last ride.
       LastRide = (from r in _rideDc.Rides orderby r.RideStartTime descending select r).FirstOrDefault() ??
                  new Ride {RideDistance = 0.0, RideDurationRaw = 0};
@@ -52,10 +61,6 @@ namespace DoodleCycle.ViewModels
       {
         SummaryRide = new Ride { RideDistance = 0.0, RideDurationRaw = 0 };
       }
-
-      AllRides = new ObservableCollection<Ride>(from r in _rideDc.Rides orderby r.RideStartTime descending select r);
-
-      IsDataLoaded = true;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -67,6 +72,8 @@ namespace DoodleCycle.ViewModels
       _rideDc.Rides.DeleteOnSubmit(rideToDelete);
 
       SaveChanges();
+
+      loadSummaryDetails();
     }
   }
 }
