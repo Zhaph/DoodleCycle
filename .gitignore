@@ -8,3 +8,5 @@ _ReSharper*
 *.user
 *.suo
 packages/*
+_UpgradeReport_Files
+UpgradeLog*

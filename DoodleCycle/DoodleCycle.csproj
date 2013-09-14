@@ -27,6 +27,7 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <FodyPath>..\packages\Fody.1.17.4.0</FodyPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,38 +51,47 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DH.Scrypt">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\DH.Scrypt.dll</HintPath>
+    <Reference Include="DH.Scrypt, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\DH.Scrypt.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit">
-      <HintPath>..\packages\SilverlightToolkitWP.4.2011.12.14\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Interop" />
-    <Reference Include="NorthernLights.Controls">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.Controls.dll</HintPath>
+    <Reference Include="NorthernLights.Controls, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\NorthernLights.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="NorthernLights.Core">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.Core.dll</HintPath>
+    <Reference Include="NorthernLights.Core, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\NorthernLights.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NorthernLights.Encryption">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.Encryption.dll</HintPath>
+    <Reference Include="NorthernLights.Encryption, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\NorthernLights.Encryption.dll</HintPath>
     </Reference>
-    <Reference Include="NorthernLights.LittleWatson">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.LittleWatson.dll</HintPath>
+    <Reference Include="NorthernLights.LittleWatson, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\NorthernLights.LittleWatson.dll</HintPath>
     </Reference>
-    <Reference Include="NorthernLights.PersistentVariables">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.PersistentVariables.dll</HintPath>
+    <Reference Include="NorthernLights.PersistentVariables, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\NorthernLights.PersistentVariables.dll</HintPath>
     </Reference>
-    <Reference Include="NorthernLights.StateVariables">
-      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.2\lib\sl4-windowsphone71\NorthernLights.StateVariables.dll</HintPath>
+    <Reference Include="NorthernLights.StateVariables, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NorthernLightsWP7Toolkit.2.0.4\lib\sl4-windowsphone71\NorthernLights.StateVariables.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanged">
-      <HintPath>..\packages\PropertyChanged.Fody.1.25.0.0\Lib\SL40-WP71\PropertyChanged.dll</HintPath>
+      <HintPath>..\packages\PropertyChanged.Fody.1.41.0.0\Lib\portable-net4+sl4+wp7+win8+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PropertyChanging">
-      <HintPath>..\packages\PropertyChanging.Fody.1.13.0.0\Lib\SL40-WP71\PropertyChanging.dll</HintPath>
+      <HintPath>..\packages\PropertyChanging.Fody.1.25.3\Lib\portable-net4+sl4+wp7+win8+MonoAndroid16+MonoTouch40\PropertyChanging.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Device" />
@@ -91,10 +101,12 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
-    <Reference Include="YourLastAboutDialog">
-      <HintPath>..\packages\YLAD.2.0.0\lib\sl40-wp71\YourLastAboutDialog.dll</HintPath>
-    </Reference>
+    <None Include="Fody.targets" />
     <None Include="FodyWeavers.xml" />
+    <Reference Include="YourLastAboutDialog, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\YLAD.2.1.0\lib\wp71\YourLastAboutDialog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -125,6 +137,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <Page Include="AppPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,10 +191,6 @@
     <Content Include="DoodleCycleBackground-Dark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
-    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup />
@@ -192,5 +205,5 @@
   -->
   <ProjectExtensions />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="$(SolutionDir)\Tools\Fody\Fody.targets" />
+  <Import Project="Fody.targets" />
 </Project>
